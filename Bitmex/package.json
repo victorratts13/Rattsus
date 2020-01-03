@@ -1,0 +1,35 @@
+{
+  "name": "rattsus-bitmex",
+  "version": "1.0.0",
+  "description": "Bot para Negociações de Criptoativos versão@1.0 bot Bitmex",
+  "main": "start.js",
+  "scripts": {
+    "test": "test.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/victorratts13/Rattsus.git"
+  },
+  "keywords": [
+    "bitmex",
+    "bitcoin",
+    "LTC",
+    "BTC",
+    "ETH",
+    "exchange"
+  ],
+  "author": "Victor Ratts",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/victorratts13/Rattsus/issues"
+  },
+  "homepage": "https://github.com/victorratts13/Rattsus#readme",
+  "dependencies": {
+    "express": "^4.17.1",
+    "clear-module": "^4.0.0",
+    "concurrently": "^5.0.0",
+    "crypto": "^1.0.1",
+    "request": "^2.88.0",
+    "technicalindicators": "^2.0.9"
+  }
+}

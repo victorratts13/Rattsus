@@ -1,0 +1,1 @@
+var lastOrderStop = {type: 'stop', side: 'Sell'}; module.exports = lastOrderStop;
