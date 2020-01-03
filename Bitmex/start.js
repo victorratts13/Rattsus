@@ -11,6 +11,8 @@ let interval = config.requestTime;
 
 setInterval(() => {
     clearModule('./var/lastOrder.js');
+    clearModule('./var/lastOrderStop.js');
+    var stopOrderlast = require('./var/lastOrderStop');
     var lastOrderSend = require('./var/lastOrder');
     let port = config.port;
     let uri = config.localRequest;
@@ -361,65 +363,106 @@ setInterval(() => {
 
                 function cross(MA, EMA, RSI){
                     if(MA > EMA && RSI < 40){
-                        return 1; //sell
+                        return 2; //sell
                     }
                     if(MA < EMA && RSI > 60){
-                        return 2; //buy
+                        return 1; //buy
                     }
                     return 0;
                 }
+                if(cross(MaVerse, MeVerse, RiVerse) == 1){
+                    console.log('Function Side -> Buy')
+                }
+                if(cross(MaVerse, MeVerse, RiVerse) == 2){
+                    console.log('Function Side -> Sell')
+                }
+                if(cross(MaVerse, MeVerse, RiVerse) == 0){
+                    console.log('Function Side -> StandBy')
+                }
 
                 function buyFunction(){
-                    if(lastOrderSend == 'Sell'){
-                        console.log(' \x1b[32m executando compra:');
-                        request(requestOptionsBuy, (error, resp, body) => {
-                            if(error){console.log('Buy Error Request ->'+ error)}
-                            var lastOrder = `var lastOrderSend = ${body}; module.exports = lastOrderSend;`;
-                            fs.writeFile('./var/lastOrder.js', lastOrder, (err) => {
-                                if(err){
-                                    console.log(err)
-                                }else{
-                                    console.log('create temporary lastOrder File on ./var/lastOrder.js \n');
-                                }
-                            });                            
+                    if(lastOrderSend.side == 'Sell'){
+                        request(requestOptionsBuy, (err, resp, body) => {
+                            if(err){console.log('erro ao comprar -> '+err)}else{
+                                console.log('\x1b[32m executando compra:'+body);
+                                var lastOrder = `var lastOrderSend = ${body}; module.exports = lastOrderSend;`;
+                                fs.writeFile('./var/lastOrder.js', lastOrder, (err) => {
+                                    if(err){
+                                        console.log(err)
+                                    }else{
+                                        console.log('create temporary lastOrder File on ./var/lastOrder.js \n');
+                                    }
+                                }); 
+                            }
                         })
+                    }else{
+                        console.log('Compra executada... Aguardando Venda')
                     }
                 }
 
                 function sellFunction(){
-                    if(lastOrderSend == 'Buy'){
-                        console.log(' \x1b[32m executando Venda:');
-                        request(requestOptionsSell, (error, resp, body) => {
-                            if(error){console.log('Sell Error Request ->'+ error)}
-                            var lastOrder = `var lastOrderSend = ${body}; module.exports = lastOrderSend;`;
-                            fs.writeFile('./var/lastOrder.js', lastOrder, (err) => {
-                                if(err){
-                                    console.log(err)
-                                }else{
-                                    console.log('create temporary lastOrder File on ./var/lastOrder.js \n');
-                                }
-                            });                            
+                    if(lastOrderSend.side == 'Buy'){
+                        request(requestOptionsSell, (err, resp, body) => {
+                            if(err){console.log('erro ao Vender -> '+err)}else{
+                                console.log('\x1b[32m executando Venda:'+body);
+                                var lastOrder = `var lastOrderSend = ${body}; module.exports = lastOrderSend;`;
+                                fs.writeFile('./var/lastOrder.js', lastOrder, (err) => {
+                                    if(err){
+                                        console.log(err)
+                                    }else{
+                                        console.log('create temporary lastOrder File on ./var/lastOrder.js \n');
+                                    }
+                                }); 
+                            }
                         })
+                    }else{
+                        console.log('Venda executada... Aguardando compra')
                     }
                 }
 
                 function stopSellFunction(){
-                    if(lastOrderSend.ordType == config.lm_mk){
-                        console.log(' \x1b[32m executando Stop Sell:');
-                        request(requestOptionsStopSell, function(error, response, body) {
-                            if (error) { console.log(error); }
-                        console.log(body);
-                        });
+                    if(stopOrderlast.side == 'Buy'){
+                        if(lastOrderSend.ordType == config.lm_mk){
+                            console.log(' \x1b[32m executando Stop Sell:');
+                            request(requestOptionsStopSell, function(error, response, body) {
+                                if (error) { console.log(error); }else{
+                                    console.log(body);
+                                    var lastOrderStop = `var lastOrderStop = {type: 'stop', side: 'Sell'}; module.exports = lastOrderStop;`;
+                                    fs.writeFile('./var/lastOrderStop.js', lastOrderStop, (err) => {
+                                        if(err){
+                                            console.log(err)
+                                        }else{
+                                            console.log('create temporary lastOrderStop File on ./var/lastOrderStop.js \n');
+                                        }
+                                    }); 
+                                }
+                            });
+                        }
+                    }else{
+                        console.log('SellStop Lançado')
                     }
                 }
 
                 function stopBuyFunction(){
-                    if(lastOrderSend.ordType == config.lm_mk){
-                        console.log(' \x1b[32m executando Stop Buy:');
-                        request(requestOptionsStopBuy, function(error, response, body) {
-                            if (error) { console.log(error); }
-                        console.log(body);
-                        });
+                    if(stopOrderlast.side == 'Sell'){
+                        if(lastOrderSend.ordType == config.lm_mk){
+                            console.log(' \x1b[32m executando Stop Buy:');
+                            request(requestOptionsStopBuy, function(error, response, body) {
+                                if (error) { console.log(error); }else{
+                                    console.log(body);
+                                    var lastOrderStop = `var lastOrderStop = {type: 'stop', side: 'Buy'}; module.exports = lastOrderStop;`;
+                                    fs.writeFile('./var/lastOrderStop.js', lastOrderStop, (err) => {
+                                        if(err){
+                                            console.log(err)
+                                        }else{
+                                            console.log('create temporary lastOrderStop File on ./var/lastOrderStop.js \n');
+                                        }
+                                    }); 
+                                }
+                            });
+                        }
+                    }else{
+                        console.log('BuyStop Lançado')
                     }
                 }
 
@@ -434,84 +477,59 @@ setInterval(() => {
                         }
                     }
                 }
-// -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- 
-                if(cross(MaVerse, MeVerse, RiVerse) == 2){
-                    if(lastOrderSend.ordType == 'Sell'){
-                        console.log(' \x1b[32m Executando Close');
-                        request(requestOptionsClose, function(error, response, body) {
-                            if (error) { console.log(error); }
-                            console.log(body);
-                            });
-                        }
-                        if(lastOrderSend.side == 'Buy'){
-                            if(lastOrderSend.ordType == config.lm_mk){
-                                console.log('Compra executada... Aguardando Venda');
-                            }
-                            if(lastOrderSend.ordType == 'StopLimit'){
-                                console.log(' \x1b[32m Executando Close');
-                                request(requestOptionsClose, function(error, response, body) {
-                                    if (error) { console.log(error); }
-                                    console.log(body);
-                                });
-                                console.log(' \x1b[32m executando Deletando Stop: Sell');
-                                request(requestOptionsDellBuy, function(error, response, body) {
-                                    if (error) { console.log(error); }
-                                console.log(body);
-                                });
-                                stopBuyFunction();
-                                buyFunction();
-                            }
-                        }else{
-                            console.log(' \x1b[32m executando Deletando Stop: Sell');
-                            request(requestOptionsDellBuy, function(error, response, body) {
-                                if (error) { console.log(error); }
-                            console.log(body);
-                            });
-                            stopBuyFunction();
-                            buyFunction();
-                        }
-                }else{
-                    console.log('Aguardando proximo Cruzamento...')    
-                }
+
+
 
                 if(cross(MaVerse, MeVerse, RiVerse) == 1){
-                    if(lastOrderSend.ordType == ' Buy'){
-                        console.log(' \x1b[32m Executando Close');
+                    if(lastOrderSend.side == 'Sell'){
                         request(requestOptionsClose, function(error, response, body) {
-                            if (error) { console.log(error); }
-                            console.log(body);
-                            });
-                        }
-                        if(lastOrderSend.side == 'Sell'){
-                            if(lastOrderSend.ordType == config.lm_mk){
-                                console.log('Venda executada... Aguardando Venda');
+                            if (error) { console.log(error); }else{
+                                console.log(' \x1b[32m Executando Close -> '+body);
                             }
-                            if(lastOrderSend.ordType == 'StopLimit'){
-                                console.log(' \x1b[32m Executando Close');
-                                request(requestOptionsClose, function(error, response, body) {
-                                    if (error) { console.log(error); }
-                                    console.log(body);
-                                });
-                                console.log(' \x1b[32m executando Deletando Stop: Buy');
+                        });
+                        
+                        if(stopOrderlast.side == 'Sell'){
+                        buyFunction()
+                            console.log(' \x1b[32m executando Delet Stop: Sell');
                                 request(requestOptionsDellSell, function(error, response, body) {
                                     if (error) { console.log(error); }
                                 console.log(body);
                                 });
-                                stopSellFunction();
-                                SellFunction();
-                            }
-                        }else{
-                            console.log(' \x1b[32m executando Deletando Stop: Buy');
-                            request(requestOptionsDellSell, function(error, response, body) {
-                                if (error) { console.log(error); }
-                            console.log(body);
-                            });
-                            stopSellFunction();
-                            sellFunction();
+                            stopBuyFunction()
                         }
-                }else{
-                    console.log('Aguardando proximo Cruzamento...')    
+                    }
+                    if(lastOrderSend.side == 'Buy'){
+                        console.log('Compra Lançada...')
+                    }else{
+                        console.log('aguardando Cruzamento... Compra')
+                    }
                 }
+
+                if(cross(MaVerse, MeVerse, RiVerse) == 2){
+                    if(lastOrderSend.side == 'Buy'){
+                        request(requestOptionsClose, function(error, response, body) {
+                            if (error) { console.log(error); }else{
+                                console.log(' \x1b[32m Executando Close -> '+body);
+                            }
+                        });
+                        
+                        if(stopOrderlast.side == 'Buy'){
+                        sellFunction()
+                            console.log(' \x1b[32m executando Delet Stop: Buy');
+                                request(requestOptionsDellBuy, function(error, response, body) {
+                                    if (error) { console.log(error); }
+                                console.log(body);
+                                });
+                            stopSellFunction()
+                        }
+                    }
+                    if(lastOrderSend.side == 'Sell'){
+                        console.log('Venda Lançada...')
+                    }else{
+                        console.log('aguardando Cruzamento... Venda')
+                    }
+                }
+
             }
         })
     })    

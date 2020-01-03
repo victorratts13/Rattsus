@@ -4,6 +4,7 @@
   "description": "Bot para Negociações de Criptoativos versão@1.0 bot Bitmex",
   "main": "start.js",
   "scripts": {
+    "start": "concurrently \"node api.js\" \"node start.js\"",
     "test": "test.js"
   },
   "repository": {
