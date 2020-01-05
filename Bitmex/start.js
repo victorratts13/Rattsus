@@ -357,9 +357,9 @@ setInterval(() => {
                 let RiVerse = RI.slice(-1)[0];
 
 
-                console.log('MA -> ' +MaVerse);
-                console.log('EMA -> '+MeVerse);
-                console.log('RIS -> '+RiVerse);
+                console.log('\x1b[37m MA  Value -> '+MaVerse+' - '+config.SMA);
+                console.log('\x1b[37m EMA Value -> '+MeVerse+' - '+config.EMA);
+                console.log('\x1b[37m RIS Value -> '+RiVerse+' - '+config.RSI);
 
                 function cross(MA, EMA, RSI){
                     if(MA > EMA && RSI < 40){
@@ -371,99 +371,107 @@ setInterval(() => {
                     return 0;
                 }
                 if(cross(MaVerse, MeVerse, RiVerse) == 1){
-                    console.log('Function Side -> Buy')
+                    console.log('\x1b[32m Function Side -> Buy')
                 }
                 if(cross(MaVerse, MeVerse, RiVerse) == 2){
-                    console.log('Function Side -> Sell')
+                    console.log('\x1b[31m Function Side -> Sell')
                 }
                 if(cross(MaVerse, MeVerse, RiVerse) == 0){
-                    console.log('Function Side -> StandBy')
+                    console.log('\x1b[36m Function Side -> StandBy')
                 }
 
                 function buyFunction(){
-                    if(lastOrderSend.side == 'Sell'){
-                        request(requestOptionsBuy, (err, resp, body) => {
-                            if(err){console.log('erro ao comprar -> '+err)}else{
-                                console.log('\x1b[32m executando compra:'+body);
-                                var lastOrder = `var lastOrderSend = ${body}; module.exports = lastOrderSend;`;
-                                fs.writeFile('./var/lastOrder.js', lastOrder, (err) => {
-                                    if(err){
-                                        console.log(err)
-                                    }else{
-                                        console.log('create temporary lastOrder File on ./var/lastOrder.js \n');
-                                    }
-                                }); 
-                            }
-                        })
-                    }else{
-                        console.log('Compra executada... Aguardando Venda')
-                    }
+                    setTimeout(() => {
+                        if(lastOrderSend.side == 'Sell'){
+                            request(requestOptionsBuy, (err, resp, body) => {
+                                if(err){console.log('erro ao comprar -> '+err)}else{
+                                    console.log('\x1b[32m executando compra:'+body);
+                                    var lastOrder = `var lastOrderSend = ${body}; module.exports = lastOrderSend;`;
+                                    fs.writeFile('./var/lastOrder.js', lastOrder, (err) => {
+                                        if(err){
+                                            console.log(err)
+                                        }else{
+                                            console.log('create temporary lastOrder File on ./var/lastOrder.js \n');
+                                        }
+                                    }); 
+                                }
+                            })
+                        }else{
+                            console.log('Compra executada... Aguardando Venda')
+                        }
+                    }, 1500)    
                 }
 
                 function sellFunction(){
-                    if(lastOrderSend.side == 'Buy'){
-                        request(requestOptionsSell, (err, resp, body) => {
-                            if(err){console.log('erro ao Vender -> '+err)}else{
-                                console.log('\x1b[32m executando Venda:'+body);
-                                var lastOrder = `var lastOrderSend = ${body}; module.exports = lastOrderSend;`;
-                                fs.writeFile('./var/lastOrder.js', lastOrder, (err) => {
-                                    if(err){
-                                        console.log(err)
-                                    }else{
-                                        console.log('create temporary lastOrder File on ./var/lastOrder.js \n');
-                                    }
-                                }); 
-                            }
-                        })
-                    }else{
-                        console.log('Venda executada... Aguardando compra')
-                    }
+                    setTimeout(() => {
+                        if(lastOrderSend.side == 'Buy'){
+                            request(requestOptionsSell, (err, resp, body) => {
+                                if(err){console.log('erro ao Vender -> '+err)}else{
+                                    console.log('\x1b[32m executando Venda:'+body);
+                                    var lastOrder = `var lastOrderSend = ${body}; module.exports = lastOrderSend;`;
+                                    fs.writeFile('./var/lastOrder.js', lastOrder, (err) => {
+                                        if(err){
+                                            console.log(err)
+                                        }else{
+                                            console.log('create temporary lastOrder File on ./var/lastOrder.js \n');
+                                        }
+                                    }); 
+                                }
+                            })
+                        }else{
+                            console.log('Venda executada... Aguardando compra')
+                        }                      
+                    }, 1500)    
                 }
 
                 function stopSellFunction(){
-                    if(stopOrderlast.side == 'Buy'){
-                        if(lastOrderSend.ordType == config.lm_mk){
-                            console.log(' \x1b[32m executando Stop Sell:');
-                            request(requestOptionsStopSell, function(error, response, body) {
-                                if (error) { console.log(error); }else{
-                                    console.log(body);
-                                    var lastOrderStop = `var lastOrderStop = {type: 'stop', side: 'Sell'}; module.exports = lastOrderStop;`;
-                                    fs.writeFile('./var/lastOrderStop.js', lastOrderStop, (err) => {
-                                        if(err){
-                                            console.log(err)
-                                        }else{
-                                            console.log('create temporary lastOrderStop File on ./var/lastOrderStop.js \n');
-                                        }
-                                    }); 
-                                }
-                            });
+                    setTimeout(() => {
+                        if(stopOrderlast.side == 'Buy'){
+                            if(lastOrderSend.ordType == config.lm_mk){
+                                console.log(' \x1b[32m executando Stop Sell:');
+                                request(requestOptionsStopSell, function(error, response, body) {
+                                    if (error) { console.log(error); }else{
+                                        console.log(body);
+                                        var lastOrderStop = `var lastOrderStop = {type: 'stop', side: 'Sell'}; module.exports = lastOrderStop;`;
+                                        fs.writeFile('./var/lastOrderStop.js', lastOrderStop, (err) => {
+                                            if(err){
+                                                console.log(err)
+                                            }else{
+                                                console.log('create temporary lastOrderStop File on ./var/lastOrderStop.js \n');
+                                            }
+                                        }); 
+                                    }
+                                });
+                            }
+                        }else{
+                            console.log('SellStop Lançado')
                         }
-                    }else{
-                        console.log('SellStop Lançado')
-                    }
+                    }, 2000)    
                 }
 
                 function stopBuyFunction(){
-                    if(stopOrderlast.side == 'Sell'){
-                        if(lastOrderSend.ordType == config.lm_mk){
-                            console.log(' \x1b[32m executando Stop Buy:');
-                            request(requestOptionsStopBuy, function(error, response, body) {
-                                if (error) { console.log(error); }else{
-                                    console.log(body);
-                                    var lastOrderStop = `var lastOrderStop = {type: 'stop', side: 'Buy'}; module.exports = lastOrderStop;`;
-                                    fs.writeFile('./var/lastOrderStop.js', lastOrderStop, (err) => {
-                                        if(err){
-                                            console.log(err)
-                                        }else{
-                                            console.log('create temporary lastOrderStop File on ./var/lastOrderStop.js \n');
-                                        }
-                                    }); 
-                                }
-                            });
+                    setTimeout(() => {
+                        if(stopOrderlast.side == 'Sell'){
+                            if(lastOrderSend.ordType == config.lm_mk){
+                                console.log(' \x1b[32m executando Stop Buy:');
+                                request(requestOptionsStopBuy, function(error, response, body) {
+                                    if (error) { console.log(error); }else{
+                                        console.log(body);
+                                        var lastOrderStop = `var lastOrderStop = {type: 'stop', side: 'Buy'}; module.exports = lastOrderStop;`;
+                                        fs.writeFile('./var/lastOrderStop.js', lastOrderStop, (err) => {
+                                            if(err){
+                                                console.log(err)
+                                            }else{
+                                                console.log('create temporary lastOrderStop File on ./var/lastOrderStop.js \n');
+                                            }
+                                        }); 
+                                    }
+                                });
+                            }
+                        }else{
+                            console.log('BuyStop Lançado')
                         }
-                    }else{
-                        console.log('BuyStop Lançado')
-                    }
+                    }, 2000)    
                 }
 
                 function DeletLimit(){
