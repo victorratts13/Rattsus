@@ -495,15 +495,15 @@ setInterval(() => {
                                 console.log(' \x1b[32m Executando Close -> '+body);
                             }
                         });
-                        
-                        if(stopOrderlast.side == 'Sell'){
                         buyFunction()
+                        if(stopOrderlast.side == 'Sell'){
                             console.log(' \x1b[32m executando Delet Stop: Sell');
-                                request(requestOptionsDellSell, function(error, response, body) {
-                                    if (error) { console.log(error); }
-                                console.log(body);
-                                });
-                            stopBuyFunction()
+                            request(requestOptionsDellSell, function(error, response, body) {
+                                if (error) { console.log(error); }else{
+                                    console.log(body);
+                                    stopBuyFunction()
+                                }
+                            });
                         }
                     }
                     if(lastOrderSend.side == 'Buy'){
@@ -520,15 +520,15 @@ setInterval(() => {
                                 console.log(' \x1b[32m Executando Close -> '+body);
                             }
                         });
-                        
-                        if(stopOrderlast.side == 'Buy'){
                         sellFunction()
-                            console.log(' \x1b[32m executando Delet Stop: Buy');
-                                request(requestOptionsDellBuy, function(error, response, body) {
-                                    if (error) { console.log(error); }
-                                console.log(body);
-                                });
-                            stopSellFunction()
+                        if(stopOrderlast.side == 'Buy'){
+                        console.log(' \x1b[32m executando Delet Stop: Buy');
+                            request(requestOptionsDellBuy, function(error, response, body) {
+                                if (error) { console.log(error); }else{
+                                    stopSellFunction()
+                                    console.log(body);
+                                }
+                            });
                         }
                     }
                     if(lastOrderSend.side == 'Sell'){
@@ -538,8 +538,8 @@ setInterval(() => {
                     }
                 }
 
-                if(cross(MaVerse, MeVerse, RiVerse) == 3){
-                    console.log('\n \x1b[46m \x1b[37m Aguardando entradas / Cruzamentos...')
+                if(cross(MaVerse, MeVerse, RiVerse) == 0){
+                    console.log('\n \x1b[46m \x1b[37m Aguardando entradas / Cruzamentos... ')
                 }
 
             }
