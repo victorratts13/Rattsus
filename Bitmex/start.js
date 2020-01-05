@@ -55,7 +55,7 @@ setInterval(() => {
                 console.log('error on request 02. See -> '+err)
             }else{
                 let chartValue = body;
-                console.log('\033c Bem-Vindo ao BotRage v2.6.2 \n \x1b[33m dados obtidos com sucesso, trabalhando com informações do \n Usuario');
+                console.log('\033c Bem-Vindo ao Rattsus v1.0.2 \n \x1b[47m \x1b[30m dados obtidos com sucesso, trabalhando com informações... \x1b[0m');
                 var actualValue = body.c.slice(-1)[0];
                 let
                 POST = 'POST',
@@ -539,7 +539,7 @@ setInterval(() => {
                 }
 
                 if(cross(MaVerse, MeVerse, RiVerse) == 0){
-                    console.log('\n \x1b[46m \x1b[37m Aguardando entradas / Cruzamentos... ')
+                    console.log('\n \x1b[46m \x1b[37m Aguardando entradas / Cruzamentos... \x1b[0m')
                 }
 
             }
