@@ -538,6 +538,10 @@ setInterval(() => {
                     }
                 }
 
+                if(cross(MaVerse, MeVerse, RiVerse) == 3){
+                    console.log('\n \x1b[46m \x1b[37m Aguardando entradas / Cruzamentos...')
+                }
+
             }
         })
     })    
