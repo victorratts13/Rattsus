@@ -91,10 +91,15 @@ setInterval(() => {
                                 console.log('USDT saldo -> '+balance.USDT )
 
                                 let buyValue = walletUSDT / lowesk;
-                                let sellValue = highest * walletBTC;
-
+                                let sellUSDTval = highest * walletBTC;
+                                let sellValue = highest * walletBTC / highest;
+                                let price = body.c.slice(-1)[0];
+                                buyValue = buyValue.toFixed(8);
+                                sellValue = sellValue.toFixed(8);
                                 console.log('Valor de compra BTC -> '+buyValue);
-                                console.log('valor de venda USDT -> '+sellValue);
+                                console.log('Valor de venda BTC -> '+sellValue);
+                                console.log('valor de venda USDT -> '+sellUSDTval);
+                                console.log('preço atual BTC -> '+price);
 
                                 console.log('ultima ordem lançada -> '+tempFile.type)
                                 poloniex.returnFeeInfo((err, fee) => {
@@ -236,24 +241,31 @@ setInterval(() => {
                                                     console.log('mudando parametros e reenviando venda...');
                                                     poloniex.sell(currenciePair, rateData, sellVolume, 1, 1, 0, (err, resp) => {
                                                         if(err){
+                                                            console.log('algum erro ocorreu na venda #005 -> '+err)
                                                             console.log('mudando parametros e reenviando venda...');
                                                             poloniex.sell(currenciePair, rateData, sellVolume, 1, 0, 1, (err, resp) => {
                                                                 if(err){
+                                                                    console.log('algum erro ocorreu na venda #005 -> '+err)
                                                                     console.log('mudando parametros e reenviando venda...');
                                                                     poloniex.sell(currenciePair, rateData, sellVolume, 0, 1, 1, (err, resp) => {
                                                                         if(err){
+                                                                            console.log('algum erro ocorreu na venda #005 -> '+err)
                                                                             console.log('mudando parametros e reenviando venda...');
                                                                             poloniex.sell(currenciePair, rateData, sellVolume, 0, 1, 0, (err, resp) => {
                                                                                 if(err){
+                                                                                    console.log('algum erro ocorreu na venda #005 -> '+err)
                                                                                     console.log('mudando parametros e reenviando venda...');
                                                                                     poloniex.sell(currenciePair, rateData, sellVolume, 0, 0, 1, (err, resp) => {
                                                                                         if(err){
+                                                                                            console.log('algum erro ocorreu na venda #005 -> '+err)
                                                                                             console.log('mudando parametros e reenviando venda...');
                                                                                             poloniex.sell(currenciePair, rateData, sellVolume, 1, 0, 0, (err, resp) => {
                                                                                                 if(err){
+                                                                                                    console.log('algum erro ocorreu na venda #005 -> '+err)
                                                                                                     console.log('mudando parametros e reenviando venda...');
                                                                                                     poloniex.sell(currenciePair, rateData, sellVolume, 0, 0, 0, (err, resp) => {
                                                                                                         if(err){
+                                                                                                            console.log('algum erro ocorreu na venda #005 -> '+err)
                                                                                                             console.log('impossivel de executar a venda :(')
                                                                                                         }else{
                                                                                                             console.log('executando venda: '+resp)
@@ -355,7 +367,10 @@ setInterval(() => {
                                         if(cross(MaVerse, MeVerse, RiVerse) == 1){
                                             if(tempFile.type == 'sell'){
                                                 console.log('executando compra ...')
-                                                buy(par, rateInfo, buyValue);
+                                                console.log(par)
+                                                console.log(price)
+                                                console.log(buyValue)
+                                                buy(par, price, buyValue);
                                             }
                                         }else{
                                             console.log('aguardando proxima ordem...')
@@ -363,7 +378,10 @@ setInterval(() => {
                                         if(cross(MaVerse, MeVerse, RiVerse) == 2){
                                             if(tempFile.type == 'buy'){
                                                 console.log('executando venda ...')
-                                                sell(par, rateInfo, sellValue);
+                                                console.log(par)
+                                                console.log(price)
+                                                console.log(sellValue)
+                                                sell(par, price, sellValue);
                                             }
                                         }else{
                                             console.log('aguardando proxima ordem...')
