@@ -1,0 +1,42 @@
+{
+  "name": "rattsus",
+  "version": "1.0.0",
+  "description": "bot de negociação de criptoativos",
+  "main": "api.js",
+  "scripts": {
+    "start": "concurrently \"node api.js\" \"node start.js\"",
+    "test": "concurrently \"node api.js\" \"node test.js\""
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/victorratts13/Rattsus.git"
+  },
+  "keywords": [
+    "btc",
+    "usdt",
+    "ltc",
+    "eth",
+    "bitcoin",
+    "litecoin",
+    "tether",
+    "usd",
+    "dolar",
+    "trade",
+    "bot",
+    "autotrade"
+  ],
+  "author": "Victor Ratts",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/victorratts13/Rattsus/issues"
+  },
+  "homepage": "https://github.com/victorratts13/Rattsus#readme",
+  "dependencies": {
+    "clear-module": "^4.0.0",
+    "concurrently": "^5.0.2",
+    "express": "^4.17.1",
+    "poloniex-api-node": "^2.0.1",
+    "request": "^2.88.0",
+    "technicalindicators": "^3.0.0"
+  }
+}
