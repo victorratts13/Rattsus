@@ -90,10 +90,11 @@ setInterval(() => {
                                 console.log('BTC saldo -> '+balance.BTC )
                                 console.log('USDT saldo -> '+balance.USDT )
 
-                                let buyValue = walletUSDT / lowesk;
+                                let price = body.c.slice(-1)[0];
+                                let buyValue = (walletUSDT / lowesk);
                                 let sellUSDTval = highest * walletBTC;
                                 let sellValue = highest * walletBTC / highest;
-                                let price = body.c.slice(-1)[0];
+                                
                                 buyValue = buyValue.toFixed(8);
                                 sellValue = sellValue.toFixed(8);
                                 console.log('Valor de compra BTC -> '+buyValue);
@@ -111,14 +112,14 @@ setInterval(() => {
 
 
                                         function buy(currenciePair, rateData, buyVolume){
-                                            poloniex.buy(currenciePair, rateData, buyVolume, 1, 1, 1, (err, resp) => {
+                                            poloniex.buy(currenciePair, rateData, buyVolume, 1, 1, 0, (err, resp) => {
                                                 if(err){
                                                     console.log('algum erro ocorreu na compra #005 -> '+err)
                                                     console.log('mudando parametros e reenviando compra...');
-                                                    poloniex.buy(currenciePair, rateData, buyVolume, 1, 1, 0, (err, resp) => {
+                                                    poloniex.buy(currenciePair, rateData, buyVolume, 1, 0, 1, (err, resp) => {
                                                         if(err){
                                                             console.log('mudando parametros e reenviando compra...');
-                                                            poloniex.buy(currenciePair, rateData, buyVolume, 1, 0, 1, (err, resp) => {
+                                                            poloniex.buy(currenciePair, rateData, buyVolume, 1, 1, 1, (err, resp) => {
                                                                 if(err){
                                                                     console.log('mudando parametros e reenviando compra...');
                                                                     poloniex.buy(currenciePair, rateData, buyVolume, 0, 1, 1, (err, resp) => {
@@ -137,7 +138,7 @@ setInterval(() => {
                                                                                                         if(err){
                                                                                                             console.log('impossivel de executar a compra :(')
                                                                                                         }else{
-                                                                                                            console.log('executando compra: '+resp)
+                                                                                                            console.log('executando compra: '+JSON.stringify(resp))
                                                                                                             var createTemp = "var lastOrder = {type: 'buy'}; module.exports = lastOrder;"
                                                                                                                 fs.writeFile('./var/lastOrder.js', createTemp, (err) => {
                                                                                                                 if(err){
@@ -149,7 +150,7 @@ setInterval(() => {
                                                                                                         }
                                                                                                     })   
                                                                                                 }else{
-                                                                                                    console.log('executando compra: '+resp)
+                                                                                                    console.log('executando compra: '+JSON.stringify(resp))
                                                                                                     var createTemp = "var lastOrder = {type: 'buy'}; module.exports = lastOrder;"
                                                                                                         fs.writeFile('./var/lastOrder.js', createTemp, (err) => {
                                                                                                         if(err){
@@ -161,7 +162,7 @@ setInterval(() => {
                                                                                                 }
                                                                                             })
                                                                                         }else{
-                                                                                            console.log('executando compra: '+resp)
+                                                                                            console.log('executando compra: '+JSON.stringify(resp))
                                                                                             var createTemp = "var lastOrder = {type: 'buy'}; module.exports = lastOrder;"
                                                                                                 fs.writeFile('./var/lastOrder.js', createTemp, (err) => {
                                                                                                 if(err){
@@ -173,7 +174,7 @@ setInterval(() => {
                                                                                         }
                                                                                     })
                                                                                 }else{
-                                                                                    console.log('executando compra: '+resp)
+                                                                                    console.log('executando compra: '+JSON.stringify(resp))
                                                                                         var createTemp = "var lastOrder = {type: 'buy'}; module.exports = lastOrder;"
                                                                                         fs.writeFile('./var/lastOrder.js', createTemp, (err) => {
                                                                                         if(err){
@@ -185,7 +186,7 @@ setInterval(() => {
                                                                                 }
                                                                             })
                                                                         }else{
-                                                                            console.log('executando compra: '+resp)
+                                                                            console.log('executando compra: '+JSON.stringify(resp))
                                                                             var createTemp = "var lastOrder = {type: 'buy'}; module.exports = lastOrder;"
                                                                                 fs.writeFile('./var/lastOrder.js', createTemp, (err) => {
                                                                                 if(err){
@@ -197,7 +198,7 @@ setInterval(() => {
                                                                         }
                                                                     })
                                                                 }else{
-                                                                    console.log('executando compra: '+resp)
+                                                                    console.log('executando compra: '+JSON.stringify(resp))
                                                                     var createTemp = "var lastOrder = {type: 'buy'}; module.exports = lastOrder;"
                                                                         fs.writeFile('./var/lastOrder.js', createTemp, (err) => {
                                                                         if(err){
@@ -209,7 +210,7 @@ setInterval(() => {
                                                                 }                                                          
                                                             })
                                                         }else{
-                                                            console.log('executando compra: '+resp)
+                                                            console.log('executando compra: '+JSON.stringify(resp))
                                                             var createTemp = "var lastOrder = {type: 'buy'}; module.exports = lastOrder;"
                                                                 fs.writeFile('./var/lastOrder.js', createTemp, (err) => {
                                                                 if(err){
@@ -221,7 +222,7 @@ setInterval(() => {
                                                         }                                                            
                                                     })
                                                 }else{
-                                                    console.log('executando compra: '+resp)
+                                                    console.log('executando compra: '+JSON.stringify(resp))
                                                     var createTemp = "var lastOrder = {type: 'buy'}; module.exports = lastOrder;"
                                                         fs.writeFile('./var/lastOrder.js', createTemp, (err) => {
                                                         if(err){
@@ -280,7 +281,7 @@ setInterval(() => {
                                                                                                         }
                                                                                                     })   
                                                                                                 }else{
-                                                                                                    console.log('executando venda: '+resp)
+                                                                                                    console.log('executando venda: '+JSON.stringify(resp))
                                                                                                     var createTemp = "var lastOrder = {type: 'sell'}; module.exports = lastOrder;"
                                                                                                         fs.writeFile('./var/lastOrder.js', createTemp, (err) => {
                                                                                                         if(err){
@@ -292,7 +293,7 @@ setInterval(() => {
                                                                                                 }
                                                                                             })
                                                                                         }else{
-                                                                                            console.log('executando venda: '+resp)
+                                                                                            console.log('executando venda: '+JSON.stringify(resp))
                                                                                             var createTemp = "var lastOrder = {type: 'sell'}; module.exports = lastOrder;"
                                                                                                 fs.writeFile('./var/lastOrder.js', createTemp, (err) => {
                                                                                                 if(err){
@@ -304,7 +305,7 @@ setInterval(() => {
                                                                                         }
                                                                                     })
                                                                                 }else{
-                                                                                    console.log('executando venda: '+resp)
+                                                                                    console.log('executando venda: '+JSON.stringify(resp))
                                                                                     var createTemp = "var lastOrder = {type: 'sell'}; module.exports = lastOrder;"
                                                                                         fs.writeFile('./var/lastOrder.js', createTemp, (err) => {
                                                                                         if(err){
@@ -316,7 +317,7 @@ setInterval(() => {
                                                                                 }
                                                                             })
                                                                         }else{
-                                                                            console.log('executando venda: '+resp)
+                                                                            console.log('executando venda: '+JSON.stringify(resp))
                                                                             var createTemp = "var lastOrder = {type: 'sell'}; module.exports = lastOrder;"
                                                                                 fs.writeFile('./var/lastOrder.js', createTemp, (err) => {
                                                                                 if(err){
@@ -328,7 +329,7 @@ setInterval(() => {
                                                                         }
                                                                     })
                                                                 }else{
-                                                                    console.log('executando venda: '+resp)
+                                                                    console.log('executando venda: '+JSON.stringify(resp))
                                                                     var createTemp = "var lastOrder = {type: 'sell'}; module.exports = lastOrder;"
                                                                         fs.writeFile('./var/lastOrder.js', createTemp, (err) => {
                                                                         if(err){
@@ -340,7 +341,7 @@ setInterval(() => {
                                                                 }                                                          
                                                             })
                                                         }else{
-                                                            console.log('executando venda: '+resp)
+                                                            console.log('executando venda: '+JSON.stringify(resp))
                                                             var createTemp = "var lastOrder = {type: 'sell'}; module.exports = lastOrder;"
                                                                 fs.writeFile('./var/lastOrder.js', createTemp, (err) => {
                                                                 if(err){
@@ -352,7 +353,7 @@ setInterval(() => {
                                                         }                                                            
                                                     })
                                                 }else{
-                                                    console.log('executando venda: '+resp)
+                                                    console.log('executando venda: '+JSON.stringify(resp))
                                                     var createTemp = "var lastOrder = {type: 'sell'}; module.exports = lastOrder;"
                                                         fs.writeFile('./var/lastOrder.js', createTemp, (err) => {
                                                         if(err){
