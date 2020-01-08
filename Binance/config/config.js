@@ -1,7 +1,7 @@
 let par = 'BTCUSDT';
 let configs = {
-    apiKey: 'ApiKey',
-    apiSecret: 'SecretKey',
+    apiKey: 'api',
+    apiSecret: 'secret',
     volume: 0,
     SMA: 99,
     EMA: 10,
@@ -46,3 +46,4 @@ let configs = {
 }
 
 module.exports = configs;
+
