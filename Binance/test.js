@@ -43,7 +43,7 @@ setInterval(() => {
         }else{
             binance.balance((error, balances) => {
                 if(error){
-                    console.log('erro ao requisitar balanços -> '+error)
+                    console.log('erro ao requisitar balanços -> '+JSON.stringify(error))
                 }else{
                     let priceOrder = body.c.slice(-1)[0];
                     let chartValue = body;
