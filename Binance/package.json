@@ -1,0 +1,37 @@
+{
+  "name": "rattsus",
+  "version": "1.0.0",
+  "description": "bot para negociação de criptoativos",
+  "main": "api.js",
+  "scripts": {
+    "start": "concurrently \"node api.js\" \"node start.js\"",
+    "test": "concurrently \"node api.js\" \"node test.js\""
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/victorratts13/Rattsus.git"
+  },
+  "keywords": [
+    "btc",
+    "bnb",
+    "binance",
+    "exchange",
+    "bot",
+    "crypto"
+  ],
+  "author": "Victor Ratts",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/victorratts13/Rattsus/issues"
+  },
+  "homepage": "https://github.com/victorratts13/Rattsus#readme",
+  "dependencies": {
+    "binance-api-node": "^0.9.12",
+    "clear-module": "^4.0.0",
+    "concurrently": "^5.0.2",
+    "express": "^4.17.1",
+    "node-binance-api": "^0.9.9",
+    "request": "^2.88.0",
+    "technicalindicators": "^3.0.0"
+  }
+}

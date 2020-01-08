@@ -1,0 +1,1 @@
+var lastOrder = {type: 'sell'}; module.exports = lastOrder;
