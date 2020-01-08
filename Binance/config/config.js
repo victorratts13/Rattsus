@@ -1,7 +1,7 @@
 let par = 'BTCUSDT';
 let configs = {
-    apiKey: 'Api',
-    apiSecret: 'Secret',
+    apiKey: 'ApiKey',
+    apiSecret: 'SecretKey',
     volume: 0,
     SMA: 99,
     EMA: 10,
