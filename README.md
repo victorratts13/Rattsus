@@ -1,2 +1,2 @@
 # Rattsus
-Bot Para negociações de Criptoativos V1.0
+Bot Para negociações de Criptoativos & Forex V1.0
