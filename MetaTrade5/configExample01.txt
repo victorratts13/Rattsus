@@ -1,0 +1,9 @@
+date: 8 jan 2020
+config: MA - 99
+        EMA - 10
+        RSI - 150
+        upVal - 60
+        downVal - 50
+test: 8 jan 2019 - 8 jan 2020 (init 1000 USD) - 2.222.29 (ordens a 0.3 USD)
+lucro: 1.222.29 122%;
+period: 1y
