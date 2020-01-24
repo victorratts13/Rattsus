@@ -13,10 +13,10 @@ input int RSI_val = 195; //valor RSI
 
 input double VolumeOrder = 1; // Volume das ordens
 input double stopOrder = 1; // valor do stop
-input double tpOrder = 1;
+input double tpOrder = 1;// valor Take Proffit
 
-input int upVal = 60;
-input int downVal = 50;
+input int upVal = 60; // Valor do RSI acima
+input int downVal = 50;// Valor do RSI abaixo
 int valueDig =  Digits();
 #include <Trade\Trade.mqh>
 CTrade trade;
