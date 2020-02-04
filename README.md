@@ -47,5 +47,12 @@ Basta Executar npm start para iniciar o bot ou npm test para testar a conexão
 ~# npm start
 ```
 
+# Prints
+
+![img1](https://i.imgur.com/FBnFMpF.png)
+![img2](https://i.imgur.com/cBzuGkq.png)
+![img3](https://i.imgur.com/rXElqM1.png)
+![img4](https://i.imgur.com/6pvbs6f.png)
+
 
 
