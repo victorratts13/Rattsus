@@ -4,7 +4,7 @@ let configs = {
     apiSecret: 'secret',
     volume: 0,
     SMA: 99,
-    EMA: 10,
+    EMA: 100,
     RSI: 14,
     pair: par,
     requestPort: 3001,
@@ -41,6 +41,10 @@ let configs = {
         supported_resolutions: ['1','3', '5', '15', '30', '60', '120', '240','360','720', 'D', 'W', 'M'],
         volume_precision: 8,
         data_status: "streaming",
+    },
+    BB: {
+        period: 20,
+        stdDev: 2.5
     }
 
 }
