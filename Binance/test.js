@@ -79,7 +79,6 @@ setInterval(() => {
                         let minNotional = minimums.BTCUSDT.minNotional;
                         let stepSize = minimums.BTCUSDT.stepSize;
                         let priceOrder = body.c.slice(-1)[0];
-                        let chartValue = body;
                         let walletBTC = balances.BTC.available / 1;
                         let walletUSDT = balances.USDT.available / 1;
 
@@ -110,6 +109,8 @@ setInterval(() => {
                         amountCalcSell = priceOrder * amountSell;
                         amountBuy = amountBuy.toFixed(6)
                         amountSell = amountSell.toFixed(6)
+                        
+                        let chartValue = body;
 
                         let inputRsi = { values: chartValue.c, period: config.RSI };
 
@@ -139,14 +140,14 @@ setInterval(() => {
                         // }
 
                         function cross(BBup, BBdown, EMA) {
-                            if (valueClose >= BBup /*&& EMA > BBup*/) {
+                            if (valueClose >= BBup && valueClose < EMA) {
                                 return 2; //sell
                             }
-                            if (valueClose <= BBdown /*&& EMA < BBdown*/) {
+                            if (valueClose <= BBdown && valueClose > EMA) {
                                 return 1; //buy
                             }
                             return 0;
-                        }
+                        }   
 
                         if (cross(BBVerse.upper, BBVerse.lower, MeVerse) == 1) {
                             console.log('\x1b[32m Function Side -> Buy')
@@ -197,6 +198,7 @@ setInterval(() => {
                                 }
                             });
                         }
+
                         console.log('### ' + amountCalcBuy + ' ' + amountCalcSell + ' ### ' + minNotional + ' ### ' + minQty)
                         console.log('|----------------configurações------------------------------------')
                         console.log('\n \x1b[33m preço atual de mercado: ' + priceOrder + '\n -------------------------------------------')
@@ -218,7 +220,7 @@ setInterval(() => {
 
                         console.log('\n \x1b[33m Execução de funções: compra & venda \n -------------------------------------------')
 
-                        if (cross(BBVerse.upper, BBVerse.lower, MeVerse) == 3) {
+                        if (cross(BBVerse.upper, BBVerse.lower, MeVerse) == 1) {
                             if (tempFile.type == 'sell') {
                                 console.log('executando compra...')
                                 buy(par, amountBuy)
@@ -229,7 +231,7 @@ setInterval(() => {
                             console.log('aguardando cruzamentos...');
                         }
 
-                        if (cross(BBVerse.upper, BBVerse.lower, MeVerse) == 3) {
+                        if (cross(BBVerse.upper, BBVerse.lower, MeVerse) == 2) {
                             if (tempFile.type == 'buy') {
                                 console.log('executando venda...')
                                 sell(par, amountSell)
